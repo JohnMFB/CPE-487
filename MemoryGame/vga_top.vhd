@@ -111,8 +111,9 @@ BEGIN --BEGIN
 		END PROCESS;
 		-- state maching combinatorial process
 		-- determines output of state machine and next state
-		MemoryGameLogic: PROCESS (failed, btn_center, btn_up, btn_down, btn_left, btn_right, color_chosen_FSM, arrow_direction_FSM, MANUAL, game_len, game_index, user_index)
+		MemoryGameLogic: PROCESS --(failed, btn_center, btn_up, btn_down, btn_left, btn_right, color_chosen_FSM, arrow_direction_FSM, MANUAL, game_len, game_index, user_index)
 		BEGIN
+		wait until rising_edge(clk_in);
             color_chosen_FSM <= 3; --Default
             game_len <= 0; -- default
             game_index <= 0;
@@ -208,9 +209,9 @@ BEGIN --BEGIN
                     else
                     next_state <= USER_INPUT_RELEASE;
                     end if;
-               WHEN OTHERS       -- BREAKS THE CODE SOMEHOW?
+                WHEN OTHERS =>      -- BREAKS THE CODE SOMEHOW?
                    next_state <= IDLE;
-			END CASE;
+                END CASE;
 			
 		END PROCESS;
 
