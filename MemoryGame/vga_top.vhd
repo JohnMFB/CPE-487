@@ -139,7 +139,8 @@ BEGIN --BEGIN
                         game_index <= 0;  --default            (Game Index is game_length - 1 after idle allows for extrapolating each iteration of array length as single value)
                         --user_len <= 0;    --default            (User index handles user inputs up until less than game length, user index 19 is game length 20 or game index 19. Therefore)
                         user_index <= 0;   --default             (User index must be less than game length - 1, Cannot be less than game index as game index should reset to avoid issues)
-                        next_state <= GAME_OUTPUT_PRESS;
+                        failed <= 0;
+			next_state <= GAME_OUTPUT_PRESS;
                         end if;
 				WHEN GAME_OUTPUT_PRESS => -- waiting for center button to be pressed
 				    if (btn_center = '1') then
