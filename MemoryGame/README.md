@@ -23,13 +23,17 @@
 * Because of the more automatic and consistently working delay for the LCDMemoryGame's LCD, we had experienced better success in displaying the array, which worked sucessfully but only breaks once the last 3 iterations are displayed, all sucessfully with a second in between. However the problem is that even though the index is working, providing different 1s on the different screen, for 1 showing 0100, 2 showing 0010, and 3 showing 0001, to corrrespond to btn_left for 0100, btn_middle for 0010, and btn_right for 0001 that is then compared in the fsm.
 
 * Inputs and Outputs in the VGA Memory Game were changes as we directly influenced arrow direction in an if statement then color chosen to be inputted into arrow from the FSM, where arrow outputs its color on and off to the vga_sync sucessfully creating arrow directions which was a large accomplishment of its own, of then its up to the violation of the FSM to be able to successfully activate the arrows in exactly the right order, of which the stability of the program without delays or debouncing functioning, and buttoon presses not being 100% consistent made troubleshooting the FSM impossible.
+  
+* Working with these projects, I have refined a lot of my knowlege on how ball_draw works with ball_on being NOT red blue or green to flip between drawing for the project. We have demonstrated excessive boolean logic and other syncronization fixes/delays to troubleshoot issues that we have not been able to see much of in the labs as we generally worked with architectures that themselves worked without implementing the entire FSM to code that did not support it. A lot of our emails and explanations back and forth demonstrate our thought process and successes in troubleshooting previous issues up to this point
+
 
 * There are recordings of the Arrow direction in action, it is also what you (Professor Yett) have seen in action yourself though we have not been able to make the code more consistent and responsibe than that point and is also not the primary lab in question.
-* LCD DISPLAY ARROWS
+  
+* LCD DISPLAY ARROWS (Please let me know if this public link share does not give you access)
 * https://drive.google.com/file/d/1Xh6_WCQx1JRTh_ypAwYhQE3YZCwcSsoV/view?usp=drive_link
 
 # John
-* Responsible for FSM creation and troubleshooting, implementing inputs and outputs of Arrow in VGA and just some github stuff
+* Responsible for FSM creation and troubleshooting, implementing inputs and outputs of Arrow in VGA and README
 
 # Nick
 * Responsible for hand creating the arrow code of which worked flawlessly, Up arrow, down arrow, left arrow, right arrow
