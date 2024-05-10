@@ -1,5 +1,5 @@
 # FINAL PROJECT: MemoryGame
-  * Utilizing **Lab 4: Bouncing Ball** code
+  ## Utilizing **Lab 4: Bouncing Ball** code
   * Implement Arrow_UP, Arrow_DOWN, Arrow_LEFT, Arrow_RIGHT portmapping
       * Variables for X and Y displacements
       * IF Statement, calls one of four arrow positions and assigns corresponding displacements
