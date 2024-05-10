@@ -1,8 +1,8 @@
 # FINAL PROJECT: MemoryGame
-  # Description Of Project Behavior 
+  ## Description Of Project Behavior 
+    Our project is a memory game. The game is supposed to work where there are 4 arrows, up, down, left, and right. Then these arrows are displayed in a sequence where the first arrow shows, and then waits for the user input. If the user is correct then the same arrow shows and another arrow shows thats next up in the iteration. Then it waits for the user to input those two inputs correctly and so on. This game is exactly the same as Simon matching color game except we use the buttons on the board as directional arrows
   
-  
-  ## Utilizing **Lab 4: Bouncing Ball** code Arrow Memory
+  ## Utilizing **Lab 3: Ball** code Arrow Memory
   * Implement Arrow_UP, Arrow_DOWN, Arrow_LEFT, Arrow_RIGHT portmapping
       * Variables for X and Y displacements
       * IF Statement, calls one of four arrow positions and assigns corresponding displacements
