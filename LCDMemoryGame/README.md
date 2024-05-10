@@ -4,7 +4,12 @@
   * In order to run this game you need the following
     1. Digilent Nexys A7 100T FPGA Board
        ![image](/Images/NexysA7.jpg)
-       The circle on the top is where you plug the VGA Cable/Adapter in and on the left is where the power cable goes
+       The circle on the top is where you plug the VGA Cable/Adapter in
+
+       The one on left is where the power cable goes
+
+       The one around the buttons are the ones that control you rup down left and right arrows
+       
     3. VGA Cable (Or Adapter)
 
        ![image](/Images/VGA.jpg)
