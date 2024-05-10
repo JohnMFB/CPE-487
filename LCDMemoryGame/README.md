@@ -41,6 +41,7 @@
 
 # Nick
 * Responsible for hand creating the arrow code of which worked flawlessly, Up arrow, down arrow, left arrow, right arrow
+* Attempts in debugging FSM for both Arrow and LCD Game
   
 ## Whats WAS left to do
   * Generate string of random arrow positions, calls and shows arrows in pattern
