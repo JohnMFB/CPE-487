@@ -1,6 +1,6 @@
 # FINAL PROJECT: MemoryGame
   ## Description Of Project Behavior 
-  Our project is a memory game. The game is supposed to work where there are 4 arrows, up, down, left, and right. Then these arrows are displayed in a sequence where the first arrow shows, and then waits for the user input. If the user is correct then the same arrow shows and another arrow shows thats next up in the iteration. Then it waits for the user to input those two inputs correctly and so on. This game is exactly the same as Simon matching color game except we use the buttons on the board as directional arrows
+  Our project is a memory game. The game is supposed to work where there are 4 arrows, up, down, left, and right. Then these arrows are displayed in a sequence where the first arrow shows, and then waits for the user input. If the user is correct then the same arrow shows and another arrow shows thats next up in the iteration. Then it waits for the user to input those two inputs correctly and so on. We also created a version that uses numbers on the LCD of the board which has the same idea of the game, instead it uses the left middle and right buttons as inputs as the display shows a 1 in either the left middle or right spot. This game is exactly the same as Simon matching color game except we use the buttons on the board as directional arrows
   * In order to run this game you need the following
     1. Digilent Nexys A7 100T FPGA Board
        ![image](/Images/NexysA7.jpg)
@@ -53,11 +53,13 @@
 * https://drive.google.com/file/d/1Xh6_WCQx1JRTh_ypAwYhQE3YZCwcSsoV/view?usp=drive_link
 
 # John
-* Responsible for FSM creation and troubleshooting, implementing inputs and outputs of Arrow in VGA and README
+* Responsible for FSM creation and troubleshooting
+* implementing inputs and outputs of Arrow in VGA and README
 
 # Nick
 * Responsible for hand creating the arrow code of which worked flawlessly, Up arrow, down arrow, left arrow, right arrow
 * Attempts in debugging FSM for both Arrow and LCD Game
+* Writing and Editing README
   
 ## Whats WAS left to do
   * Generate string of random arrow positions, calls and shows arrows in pattern
@@ -65,13 +67,47 @@
   * Keep generating longer patterns each time user completes current string of random arrows
   * stuff
 
-## MemoryGame Setup
+## Arrow MemoryGame Setup
 
 ### 1. Create a new RTL project MemoryGame in Vivado Quick Start
 
-* Create five new source files of file type VHDL called **hexcalc.vhd** and **leddec16.vhd**
+* Create five new source files of file type VHDL called **arrow.vhd**, **vga_top.vhd**, **vga_sync.vhd**, **clk_wiz_0.vhd**, **clk_wiz_0_clk_wiz.vhd**
+  
+* Create a new constraint file of file type XDC called **vga_top.xdc**
 
-* Create a new constraint file of file type XDC called **hexcalc.vhd**
+* Choose Nexys A7-100T board for the project
+
+* Click 'Finish'
+
+* Click design sources and copy the VHDL code from arrow.vhd, vga_top.vhd, vga_sync.vhd, clk_wiz_0.vhd, clk_wiz_0_clk_wiz.vhd
+
+* Click constraints and copy the code from vga_top.xdc
+
+* As an alternative, you can instead download files from Github and import them into your project when creating the project. The source file or files would still be imported during the Source step, and the constraint file or files would still be imported during the Constraints step.
+
+### 2. Run synthesis
+
+### 3. Run implementation
+
+### 3b. (optional, generally not recommended as it is difficult to extract information from and can cause Vivado shutdown) Open implemented design
+
+### 4. Generate bitstream, open hardware manager, and program device
+
+* Click 'Generate Bitstream'
+
+* Click 'Open Hardware Manager' and click 'Open Target' then 'Auto Connect'
+
+* Click 'Program Device' then xc7a100t_0 to download vga_top.bit to the Nexys A7 board
+
+---
+
+## LCD MemoryGame Setup
+
+### 1. Create a new RTL project MemoryGame in Vivado Quick Start
+
+* Create two new source files of file type VHDL called **hexcalc.vhd** and **leddec16.vhd**
+  
+* Create a new constraint file of file type XDC called **hexcalc.xdc**
 
 * Choose Nexys A7-100T board for the project
 
