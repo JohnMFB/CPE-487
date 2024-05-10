@@ -23,7 +23,10 @@
 * Because of the more automatic and consistently working delay for the LCDMemoryGame's LCD, we had experienced better success in displaying the array, which worked sucessfully but only breaks once the last 3 iterations are displayed, all sucessfully with a second in between. However the problem is that even though the index is working, providing different 1s on the different screen, for 1 showing 0100, 2 showing 0010, and 3 showing 0001, to corrrespond to btn_left for 0100, btn_middle for 0010, and btn_right for 0001 that is then compared in the fsm.
 
 * Inputs and Outputs in the VGA Memory Game were changes as we directly influenced arrow direction in an if statement then color chosen to be inputted into arrow from the FSM, where arrow outputs its color on and off to the vga_sync sucessfully creating arrow directions which was a large accomplishment of its own, of then its up to the violation of the FSM to be able to successfully activate the arrows in exactly the right order, of which the stability of the program without delays or debouncing functioning, and buttoon presses not being 100% consistent made troubleshooting the FSM impossible.
-* 
+
+* There are recordings of the Arrow direction in action, it is also what you (Professor Yett) have seen in action yourself though we have not been able to make the code more consistent and responsibe than that point and is also not the primary lab in question.
+* LCD DISPLAY ARROWS
+* https://drive.google.com/file/d/1Xh6_WCQx1JRTh_ypAwYhQE3YZCwcSsoV/view?usp=drive_link
 
 # John
 * Responsible for FSM creation and troubleshooting, implementing inputs and outputs of Arrow in VGA and just some github stuff
