@@ -17,25 +17,33 @@
   
   ## **Lab 3: Ball** Code Modifications for Arrow Memory
   ### Arrow.vhd
-  * To draw the arrows we editied how the ball was drawn in lab 3. First we made a triangle that split the left and right sides of the screen and filled in the space if it was in the area of the triangle. Then we added the rectangle by dividing the ball_x or ball_y by 2 and shifting it up down left or right for the pointer. This is an example of the up arrow, and to change the direction we swicthed whether it was draing from left/right or top/down and then changed where the point should be
-    [image!](Images/ArrowCode.png)
+  * To draw the arrows we editied how the ball was drawn in lab 3. First we made a triangle that split the left and right sides of the screen and filled in the space if it was in the area of the triangle. Then we added the rectangle by dividing the ball_x or ball_y by 2 and shifting it up down left or right for the pointer. This is an example of the up arrow, and to change the direction we switched whether it was drawing from left/right or top/down and then changed where the point should be
+    ![image](/Images/ArrowCode.png)
     
-  * This is also what that up Arrow looked like
+  * This is also what that up Arrow looked like for example
+
+    ![image](/Images/ArrowTop.jpg)
   * Then we added a color case to match colors to certain integers that when we called 1 it would be red, 2 would be green, and 3 would be blue
-    [image!](Images/ColorCode.png)
+    ![image](/Images/ColorCode.png)
 
   ### Vga_top.vhd
-  * Implement Arrow_UP, Arrow_DOWN, Arrow_LEFT, Arrow_RIGHT portmapping
-      * Variables for X and Y displacements
-      * IF Statement, calls one of four arrow positions and assigns corresponding displacements
-   
   * First signals are needed to handle the random array for the memory game that houses various inputs that must be compared to the given inputs
   * The singals would be a user index, game index, game array, game array max index
   * Signals are also required for FSM delay, debouncing, and other methods of trying to fix the code
 
   * Either siginals for display of 1 to 3 in integer array or 1-4 for arrow direction was used for either of the projects
   * Then VGA uses color 1-3 to write to Arrow's color.
-  * For the the FSM created now it generally houses an IDLE, GAME OUTPUT, and USER INPUT press and release states, or display. For the VGA it resets all the variables in idle and houses an extra process to accept a multiple button keybind to reset the game, game output is not compatible with the specific clock as it needs to be governed to display via a middle button press, until of which the array is iterated and index reset after reaching user_input press, where a similar process begings. Without a functioning count it sets arrow_direction on press to display, same with color, then on release and only on release will arrow_direction set to 5 and disappear. Right before the press displays it also checks in unison with the game_output index of the array with the user input delay, these variables work in unison to control the state of the memory game, where the user is in relation with the current game array length that slowly increments, and the user input increments beforre they are compared.
+  ![image](/Images/ArrowSignals.png)
+  
+  * Implement Arrow_UP, Arrow_DOWN, Arrow_LEFT, Arrow_RIGHT portmapping
+      * Variables for X and Y displacements
+      * IF Statement, calls one of four arrow positions and assigns corresponding displacements
+   
+  
+  * For the the FSM created now it generally houses an IDLE, GAME OUTPUT, and USER INPUT press and release states, or display. For the VGA it resets all the variables in idle and houses an extra process to accept a multiple button keybind to reset the game, game output is not compatible with the specific clock as it needs to be governed to display via a middle button press, until of which the array is iterated and index reset after reaching user_input press, where a similar process begings. Without a functioning count it sets arrow_direction on press to display, same with color, then on release and only on release will arrow_direction set to 5 and disappear. Right before the press displays it also checks in unison with the game_output index of the array with the user input delay, these variables work in unison to control the state of the memory game, where the user is in relation with the current game array length that slowly increments, and the user input increments before they are compared.
+![image](/Images/ArrowLogic1.png)
+![image](/Images/ArrowLogic2.png)
+![image](/Images/ArrowLogic3.png)
 
 ## **Lab 4: Calculator** Code Modifications for LCD Memory
 
