@@ -1,4 +1,7 @@
 # FINAL PROJECT: MemoryGame
+  # Description Of Project Behavior 
+  
+  
   ## Utilizing **Lab 4: Bouncing Ball** code Arrow Memory
   * Implement Arrow_UP, Arrow_DOWN, Arrow_LEFT, Arrow_RIGHT portmapping
       * Variables for X and Y displacements
