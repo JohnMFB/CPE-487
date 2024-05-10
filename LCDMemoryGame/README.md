@@ -15,20 +15,29 @@
        ![image](/Images/VGA.jpg)
     5. Monitor
   
-  ## Utilizing **Lab 3: Ball** code Arrow Memory
+  ## **Lab 3: Ball** Code Modifications for Arrow Memory
+  ### Arrow.vhd
+  * To draw the arrows we editied how the ball was drawn in lab 3. First we made a triangle that split the left and right sides of the screen and filled in the space if it was in the area of the triangle. Then we added the rectangle by dividing the ball_x or ball_y by 2 and shifting it up down left or right for the pointer. This is an example of the up arrow, and to change the direction we swicthed whether it was draing from left/right or top/down and then changed where the point should be
+    [image!](Images/ArrowCode.png)
+    
+  * This is also what that up Arrow looked like
+  * Then we added a color case to match colors to certain integers that when we called 1 it would be red, 2 would be green, and 3 would be blue
+    [image!](Images/ColorCode.png)
+
+  ### Vga_top.vhd
   * Implement Arrow_UP, Arrow_DOWN, Arrow_LEFT, Arrow_RIGHT portmapping
       * Variables for X and Y displacements
       * IF Statement, calls one of four arrow positions and assigns corresponding displacements
    
-  * The memory game has since then been changed from a VGA display to an LCD display bug the general concept of making the functioning FSM applies
   * First signals are needed to handle the random array for the memory game that houses various inputs that must be compared to the given inputs
   * The singals would be a user index, game index, game array, game array max index
   * Signals are also required for FSM delay, debouncing, and other methods of trying to fix the code
+
   * Either siginals for display of 1 to 3 in integer array or 1-4 for arrow direction was used for either of the projects
   * Then VGA uses color 1-3 to write to Arrow's color.
   * For the the FSM created now it generally houses an IDLE, GAME OUTPUT, and USER INPUT press and release states, or display. For the VGA it resets all the variables in idle and houses an extra process to accept a multiple button keybind to reset the game, game output is not compatible with the specific clock as it needs to be governed to display via a middle button press, until of which the array is iterated and index reset after reaching user_input press, where a similar process begings. Without a functioning count it sets arrow_direction on press to display, same with color, then on release and only on release will arrow_direction set to 5 and disappear. Right before the press displays it also checks in unison with the game_output index of the array with the user input delay, these variables work in unison to control the state of the memory game, where the user is in relation with the current game array length that slowly increments, and the user input increments beforre they are compared.
 
-## Utilizing **Lab 4: Calculator** code LCD Memory
+## **Lab 4: Calculator** Code Modifications for LCD Memory
 
   * The reason for this method to not be used is issues with syncronization between the VGA and the FSM
   * These issues caused for the array to inconsistently skip arround in comparison to using the 50 MHZ clock in the LAB 4 code instead of Lab 3 code where we experienced the most amount of issues.
@@ -42,7 +51,7 @@
 
 * Inputs and Outputs in the VGA Memory Game were changes as we directly influenced arrow direction in an if statement then color chosen to be inputted into arrow from the FSM, where arrow outputs its color on and off to the vga_sync sucessfully creating arrow directions which was a large accomplishment of its own, of then its up to the violation of the FSM to be able to successfully activate the arrows in exactly the right order, of which the stability of the program without delays or debouncing functioning, and buttoon presses not being 100% consistent made troubleshooting the FSM impossible. Buttons as inputs are also added within the vga_top.xdc constraint file.
   
-* Working with these projects, I have refined a lot of my knowlege on how ball_draw works with ball_on being NOT red blue or green to flip between drawing for the project. We have demonstrated excessive boolean logic and other syncronization fixes/delays to troubleshoot issues that we have not been able to see much of in the labs as we generally worked with architectures that themselves worked without implementing the entire FSM to code that did not support it. A lot of our emails and explanations back and forth demonstrate our thought process and successes in troubleshooting previous issues up to this point
+* Working with these projects, we have refined a lot of our knowlege on how ball_draw works with ball_on being NOT red blue or green to flip between drawing for the project. We have demonstrated excessive boolean logic and other syncronization fixes/delays to troubleshoot issues that we have not been able to see much of in the labs as we generally worked with architectures that themselves worked without implementing the entire FSM to code that did not support it. A lot of our emails and explanations back and forth demonstrate our thought process and successes in troubleshooting previous issues up to this point
 
 
 * There are recordings of the Arrow direction in action, it is also what you (Professor Yett) have seen in action yourself though we have not been able to make the code more consistent and responsible than that point and is also not the primary lab in question.
