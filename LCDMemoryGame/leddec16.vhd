@@ -1,109 +1,51 @@
 LIBRARY IEEE;
 USE IEEE.STD_LOGIC_1164.ALL;
-USE IEEE.STD_LOGIC_UNSIGNED.ALL;
 
-ENTITY hexcalc IS
+ENTITY leddec16 IS
 	PORT (
-		clk_50MHz : IN STD_LOGIC; -- system clock (50 MHz)
-		SEG7_anode : OUT STD_LOGIC_VECTOR (7 DOWNTO 0); -- anodes of eight 7-seg displays
-		SEG7_seg : OUT STD_LOGIC_VECTOR (6 DOWNTO 0); -- common segments of 7-seg displays
-        btn_center : IN STD_LOGIC; -- Start game
-        btn_up : IN STD_LOGIC; -- User input for up arrow
-        btn_left : IN STD_LOGIC; -- User input for left arrow
-        btn_right : IN STD_LOGIC; -- User input for right arrow
-        btn_down : IN STD_LOGIC -- User input for down arrow
-        );
-END hexcalc;
+		dig : IN STD_LOGIC_VECTOR (2 DOWNTO 0); -- which digit to currently display
+		data : IN STD_LOGIC_VECTOR (15 DOWNTO 0); -- 16-bit (4-digit) data
+		anode : OUT STD_LOGIC_VECTOR (7 DOWNTO 0); -- which anode to turn on
+		seg : OUT STD_LOGIC_VECTOR (6 DOWNTO 0)); -- segment code for current digit
+END leddec16;
 
-ARCHITECTURE Behavioral OF hexcalc IS
-
-	COMPONENT leddec16 IS
-		PORT (
-			dig : IN STD_LOGIC_VECTOR (2 DOWNTO 0);
-			data : IN STD_LOGIC_VECTOR (15 DOWNTO 0);
-			anode : OUT STD_LOGIC_VECTOR (7 DOWNTO 0);
-			seg : OUT STD_LOGIC_VECTOR (6 DOWNTO 0)
-		);
-	END COMPONENT;
-    SIGNAL game_sequence : std_logic_vector(15 DOWNTO 0) := X"1234"; -- Example game sequence
-    SIGNAL user_sequence : std_logic_vector(15 DOWNTO 0) := (others => '0');
-	SIGNAL display : std_logic_vector (15 DOWNTO 0); -- value to be displayed
-	SIGNAL led_mpx : STD_LOGIC_VECTOR (2 DOWNTO 0); -- 7-seg multiplexing clock
-	TYPE state_type IS (IDLE, DISPLAY_SEQ, USER_INPUT, CHECK_INPUT, SHOW_RESULT);
-	SIGNAL next_state, current_state : state_type := IDLE; -- present and next states
-	SIGNAL seq_index : integer range 0 to 3 := 0;
-		SIGNAL cnt : std_logic_vector(20 DOWNTO 0); -- counter to generate timing signals
-	
+ARCHITECTURE Behavioral OF leddec16 IS
+	SIGNAL data4 : STD_LOGIC_VECTOR (3 DOWNTO 0); -- binary value of current digit
 BEGIN
-
-	Clock : PROCESS (clk_50MHz)--display and timing
-	BEGIN
-		IF rising_edge(clk_50MHz) THEN -- on rising edge of clock
-			cnt <= cnt + 1; -- increment counter
-		END IF;
-	END PROCESS;
-	
-	led_mpx <= cnt(19 DOWNTO 17); -- 7-seg multiplexing clock
-	
-    led1 : leddec16
-    PORT MAP(
-        dig => led_mpx, data => display, 
-        anode => SEG7_anode, seg => SEG7_seg
-    );
-    FSM_Clock : PROCESS
-    BEGIN
-    WAIT UNTIL rising_edge(clk_50MHz);
-    current_state <= next_state;
-    END PROCESS;
-		MEMORYGAMEFSM : PROCESS -- state machine clock process
-		BEGIN
-		    wait until rising_edge(clk_50MHz);
-			
-			
-			CASE current_state IS -- depending on present state...
-				WHEN IDLE => -- waiting for next digit in 1st operand entry
-					IF btn_center = '1' THEN
-					   next_state <= DISPLAY_SEQ;
-					   seq_index <= 0;
-					ELSE
-					   next_state <= IDLE;
-					END IF;					
-				WHEN DISPLAY_SEQ => -- waiting for button to be released
-					display <= game_sequence;
-					IF seq_index < 4 THEN
-					   seq_index <= seq_index + 1;
-					ELSE
-					   next_state <= USER_INPUT;
-					   seq_index <= 0;
-					END IF;
-				WHEN USER_INPUT => -- ready to start entering 2nd operand
-		             IF btn_up = '1' OR btn_down = '1' OR btn_left = '1' OR btn_right = '1' THEN
-                        user_sequence(seq_index * 4 + 3 DOWNTO seq_index * 4) <= "1111"; -- Example input
-                        seq_index <= seq_index + 1;
-                        IF seq_index >= 4 THEN
-                            next_state <= CHECK_INPUT;
-                        END IF;
-                    END IF;
-                WHEN CHECK_INPUT =>
-                    IF user_sequence = game_sequence THEN
-                        -- Set display to show all 1s
-                        display <= "0110000011000000";  -- Display "11" on part of the display (assuming 8 bits for simplicity)
-                    ELSE
-                        -- Set display to show all Fs
-                        display <= "1001111100111110";  -- Display "FF" on part of the display (assuming 8 bits for simplicity)
-                    END IF;
-                    next_state <= SHOW_RESULT;
-                
-  
-				WHEN SHOW_RESULT => -- waiting for next digit in 2nd operand
-                    IF btn_center = '1' THEN
-                        next_state <= IDLE;
-                    ELSE
-                        next_state <= SHOW_RESULT;
-                    END IF;
-                WHEN OTHERS =>
-                    next_state <= IDLE;
-			END CASE;
-			
-		END PROCESS;
+	-- Select digit data to be displayed in this mpx period
+	         data4 <= data(3 DOWNTO 0) WHEN dig = "000" 
+	         ELSE -- digit 0
+	         data(7 DOWNTO 4) WHEN dig = "001" 
+	         ELSE -- digit 1
+	         data(11 DOWNTO 8) WHEN dig = "010" 
+	         ELSE -- digit 2
+	         data(15 DOWNTO 12); -- digit 3
+	-- Turn on segments corresponding to 4-bit data word
+	seg <= "0000001" WHEN data4 = "0000" ELSE -- 0
+	       "1001111" WHEN data4 = "0001" ELSE -- 1
+	       "0010010" WHEN data4 = "0010" ELSE -- 2
+	       "0000110" WHEN data4 = "0011" ELSE -- 3
+	       "1001100" WHEN data4 = "0100" ELSE -- 4
+	       "0100100" WHEN data4 = "0101" ELSE -- 5
+	       "0100000" WHEN data4 = "0110" ELSE -- 6
+	       "0001111" WHEN data4 = "0111" ELSE -- 7
+	       "0000000" WHEN data4 = "1000" ELSE -- 8
+	       "0000100" WHEN data4 = "1001" ELSE -- 9
+	       "0001000" WHEN data4 = "1010" ELSE -- A
+	       "1100000" WHEN data4 = "1011" ELSE -- B
+	       "0110001" WHEN data4 = "1100" ELSE -- C
+	       "1000010" WHEN data4 = "1101" ELSE -- D
+	       "0110000" WHEN data4 = "1110" ELSE -- E
+	       "0111000" WHEN data4 = "1111" ELSE -- F
+	       "1111111";
+	-- Turn on anode of 7-segment display addressed by 3-bit digit selector dig
+    anode <= "11111110" WHEN dig = "000" ELSE -- 0
+             "11111101" WHEN dig = "001" ELSE -- 1
+             "11111011" WHEN dig = "010" ELSE -- 2
+             "11110111" WHEN dig = "011" ELSE -- 3
+--	         "11101111" WHEN dig = "100" ELSE -- 4
+--	         "11011111" WHEN dig = "101" ELSE -- 5 
+--	         "10111111" WHEN dig = "110" ELSE -- 6
+--	         "01111111" WHEN dig = "111" ELSE -- 7
+	         "11111111";
 END Behavioral;
