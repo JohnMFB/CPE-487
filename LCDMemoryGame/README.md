@@ -1,6 +1,10 @@
 # FINAL PROJECT: MemoryGame
   ## Description Of Project Behavior 
-    Our project is a memory game. The game is supposed to work where there are 4 arrows, up, down, left, and right. Then these arrows are displayed in a sequence where the first arrow shows, and then waits for the user input. If the user is correct then the same arrow shows and another arrow shows thats next up in the iteration. Then it waits for the user to input those two inputs correctly and so on. This game is exactly the same as Simon matching color game except we use the buttons on the board as directional arrows
+  Our project is a memory game. The game is supposed to work where there are 4 arrows, up, down, left, and right. Then these arrows are displayed in a sequence where the first arrow shows, and then waits for the user input. If the user is correct then the same arrow shows and another arrow shows thats next up in the iteration. Then it waits for the user to input those two inputs correctly and so on. This game is exactly the same as Simon matching color game except we use the buttons on the board as directional arrows
+  * In order to run this game you need the following
+    1. Digilent Nexys A7 100T FPGA Board
+    2. VGA Cable (Or Adapter)
+    3. Monitor
   
   ## Utilizing **Lab 3: Ball** code Arrow Memory
   * Implement Arrow_UP, Arrow_DOWN, Arrow_LEFT, Arrow_RIGHT portmapping
