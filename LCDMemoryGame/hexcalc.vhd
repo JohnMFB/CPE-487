@@ -65,7 +65,7 @@ BEGIN
 					IF btn_center = '1' THEN
 					   next_state <= DISPLAY_SEQ;
 					   seq_index <= 0;
-					   display <= '0000000000000000';
+					   display <= "0000000000000000";
 					ELSE
 					   next_state <= IDLE;
 					END IF;					
