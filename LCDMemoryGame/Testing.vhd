@@ -72,45 +72,36 @@ BEGIN
 					END IF;					
                 -- Assuming each display corresponds to 4 bits (a single hex digit), and only displays '1'
                     WHEN DISPLAY_SEQ =>
-    IF delay_counter < 50000000 THEN
-        delay_counter <= delay_counter + 1;  -- Continue counting
-    ELSE
-        delay_counter <= 0;  -- Reset counter for next display update
-        -- Clear previous display
-        display <= (others => '0');
-        -- Update display to show the sequence up to the current index
-        CASE sequence(seq_index) IS
-            WHEN 1 =>
-                display(3 downto 0) <= "0001";  -- Display '1' at position 1
-            WHEN 2 =>
-                display(7 downto 4) <= "0010";  -- Display '2' at position 2
-            WHEN 3 =>
-                display(11 downto 8) <= "0011";  -- Display '3' at position 3
-        END CASE;
-        -- Move to the next state to wait for user input
-        next_state <= USER_INPUT;
-    END IF;
+                        IF delay_counter < 50000000 THEN
+                            delay_counter <= delay_counter + 1;  -- Continue counting
+                        ELSE
+                            delay_counter <= 0;  -- Reset counter for next display update
+                            -- Clear previous display
+                            display <= (others => '0');
+                            -- Update display according to the sequence
+                            CASE sequence(seq_index) IS
+                                WHEN 1 =>
+                                    display((0*4+3) DOWNTO (0*4)) <= "0001";  -- Display '1' at position 1 (100)
+                                WHEN 2 =>
+                                    display((1*4+3) DOWNTO (1*4)) <= "0001";  -- Display '1' at position 2 (010)
+                                WHEN 3 =>
+                                    display((2*4+3) DOWNTO (2*4)) <= "0001";  -- Display '1' at position 3 (001)
+                            END CASE;
+                            next_state <= USER_INPUT;
+                        END IF;
 
-WHEN USER_INPUT =>
-    -- Check user input against the current value in the sequence
-    IF btn_left = '1' AND btn_center = '0' AND btn_right = '0' AND btn_down = '0' AND btn_up = '0' AND sequence(seq_index) = 1 THEN
-        -- If user input is correct, increment the sequence index to display the next value
-        seq_index <= seq_index + 1;
-        -- Check if all values have been displayed
-        IF seq_index > MAX_SEQ_LEN THEN
-            -- All values displayed, transition to an appropriate state (e.g., IDLE or SHOW_RESULT)
-        ELSE
-            -- Update display to show the sequence up to the current index
-            CASE sequence(seq_index) IS
-                WHEN 1 =>
-                    display(3 downto 0) <= "0001";  -- Display '1' at position 1
-                WHEN 2 =>
-                    display(7 downto 4) <= "0010";  -- Display '2' at position 2
-                WHEN 3 =>
-                    display(11 downto 8) <= "0011";  -- Display '3' at position 3
-            END CASE;
-        END IF;
-    ELSE
+				WHEN USER_INPUT =>
+                        -- Check user input according to sequence
+                        IF (btn_left = '1' AND sequence(seq_index) = 1) OR
+                           (btn_center = '1' AND sequence(seq_index) = 2) OR
+                           (btn_right = '1' AND sequence(seq_index) = 3) THEN
+                            IF seq_index < MAX_SEQ_LEN THEN
+                                seq_index <= seq_index + 1;  -- Move to next in sequence
+                            ELSE
+                                next_state <= CHECK_INPUT;  -- All inputs received, check them
+                                seq_index <= 0;  -- Reset for any further checks or replays
+                            END IF;
+                        ELSE
                             -- Handle wrong input, possibly reset or indicate error
                             display <= (others => '1');  -- Example: turn all segments on to indicate error
                             next_state <= IDLE;  -- Reset game
