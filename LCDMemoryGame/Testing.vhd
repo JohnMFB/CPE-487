@@ -27,7 +27,7 @@ ARCHITECTURE Behavioral OF hexcalc IS
 	END COMPONENT;
     constant MAX_SEQ_LEN : integer := 19;
     type seq_type is array (0 to MAX_SEQ_LEN) of integer range 1 to 3; -- Adjust the range based on your display needs
-    signal sequence : seq_type := (1, 2, 3, 2, 3, 1, 3, 2, 3, 1, 3, 2, 3, 1, 2, 1, 3, 3, 2, 3);
+    signal sequence : seq_type := (1, 3, 2, 1, 2, 3, 1, 2, 3, 2, 1, 3, 2, 1, 3, 2, 1, 3, 2, 1);
 	SIGNAL display : std_logic_vector (15 DOWNTO 0); -- value to be displayed
 	SIGNAL led_mpx : STD_LOGIC_VECTOR (2 DOWNTO 0); -- 7-seg multiplexing clock
 	TYPE state_type IS (IDLE, DISPLAY_SEQ, USER_INPUT, CHECK_INPUT, SHOW_RESULT);
@@ -72,40 +72,46 @@ BEGIN
 					END IF;					
                 -- Assuming each display corresponds to 4 bits (a single hex digit), and only displays '1'
                     WHEN DISPLAY_SEQ =>
-                        IF delay_counter < 50000000 THEN
-                            delay_counter <= delay_counter + 1;  -- Continue counting
-                        ELSE
-                            delay_counter <= 0;  -- Reset counter for next display update
-                            -- Clear previous display
-                            display <= (others => '0');
-                            -- Update display according to the sequence
-                            CASE sequence(seq_index) IS
-                                WHEN 1 =>
-                                    display((0*4+3) DOWNTO (0*4)) <= "0001";  -- Display '1' at position 1 (100)
-                                WHEN 2 =>
-                                    display((1*4+3) DOWNTO (1*4)) <= "0001";  -- Display '1' at position 2 (010)
-                                WHEN 3 =>
-                                    display((2*4+3) DOWNTO (2*4)) <= "0001";  -- Display '1' at position 3 (001)
-                            END CASE;
-                            next_state <= USER_INPUT;
-                        END IF;
-
+    IF delay_counter < 50000000 THEN
+        delay_counter <= delay_counter + 1;  -- Continue counting
+    ELSE
+        delay_counter <= 0;  -- Reset counter for next display update
+        -- Clear previous display
+        display <= (others => '0');
+        -- Update display according to the sequence
+        CASE seq_index IS
+            WHEN 0 =>
+                display((0*4+3) DOWNTO (0*4)) <= "0001";  -- Display '1' at position 1 (100)
+            WHEN 1 =>
+                display((1*4+3) DOWNTO (1*4)) <= "0001";  -- Display '1' at position 2 (010)
+            WHEN 2 =>
+                display((2*4+3) DOWNTO (2*4)) <= "0001";  -- Display '1' at position 3 (001)
+            WHEN OTHERS =>
+                display <= (others => '0');
+        END CASE;
+        
+        IF seq_index < MAX_SEQ_LEN THEN
+            seq_index <= seq_index + 1;
+        ELSE
+            next_state <= USER_INPUT;  -- Move to user input after last display
+            seq_index <= 0;  -- Reset index for user input checking
+        END IF;
+    END IF;
 				WHEN USER_INPUT =>
-                        -- Check user input according to sequence
-                        IF (btn_left = '1' AND sequence(seq_index) = 1) OR
-                           (btn_center = '1' AND sequence(seq_index) = 2) OR
-                           (btn_right = '1' AND sequence(seq_index) = 3) THEN
-                            IF seq_index < MAX_SEQ_LEN THEN
-                                seq_index <= seq_index + 1;  -- Move to next in sequence
-                            ELSE
-                                next_state <= CHECK_INPUT;  -- All inputs received, check them
-                                seq_index <= 0;  -- Reset for any further checks or replays
-                            END IF;
+                    -- Check user input according to sequence
+                    IF (btn_left = '1' AND sequence(seq_index) = 1) OR
+                       (btn_center = '1' AND sequence(seq_index) = 2) OR
+                       (btn_right = '1' AND sequence(seq_index) = 3) THEN
+                        IF seq_index < MAX_SEQ_LEN THEN
+                            seq_index <= seq_index + 1;  -- Move to next in sequence
                         ELSE
-                            -- Handle wrong input, possibly reset or indicate error
-                            display <= (others => '1');  -- Example: turn all segments on to indicate error
-                            next_state <= IDLE;  -- Reset game
+                            next_state <= CHECK_INPUT;  -- All inputs received, check them
                         END IF;
+                    ELSE
+                        -- Optional: handle wrong input, possibly reset or indicate error
+                        display <= (others => '1');  -- Example: turn all segments on to indicate error
+                        next_state <= IDLE;  -- Reset game
+                    END IF;
 				WHEN SHOW_RESULT => -- waiting for next digit in 2nd operand
                     IF btn_center = '1' THEN
                         next_state <= IDLE;
