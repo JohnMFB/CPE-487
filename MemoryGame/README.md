@@ -1,11 +1,25 @@
 # FINAL PROJECT: MemoryGame
-  * Utilizing **Lab 3: Bouncing Ball** code
+  * Utilizing **Lab 4: Bouncing Ball** code
   * Implement Arrow_UP, Arrow_DOWN, Arrow_LEFT, Arrow_RIGHT portmapping
       * Variables for X and Y displacements
       * IF Statement, calls one of four arrow positions and assigns corresponding displacements
+   
+  * The memory game has since then been changed from a VGA display to an LCD display bug the general concept of making the functioning FSM applies
+  * First signals are needed to handle the random array for the memory game that houses various inputs that must be compared to the given inputs
+  * The singals would be a user index, game index, game array, game array max index
+  * Signals are also required for FSM delay, debouncing, and other methods of trying to fix the code
+  * Either siginals for display of 1 to 3 in integer array or 1-4 for arrow direction was used for either of the projects
+  * Then VGA uses color 1-3 to write to Arrow's color.
+  * For the the FSM created now it generally houses an IDLE, GAME OUTPUT, and USER INPUT press and release states, or display. For the VGA it resets all the variables in idle and houses an extra process to accept a multiple button keybind to reset the game, game output is not compatible with the specific clock as it needs to be governed to display via a middle button press, until of which the array is iterated and index reset after reaching user_input press, where a similar process begings. Without a functioning count it sets arrow_direction on press to display, same with color, then on release and only on release will arrow_direction set to 5 and disappear. Right before the press displays it also checks in unison with the game_output index of the array with the user input delay, these variables work in unison to control the state of the memory game, where the user is in relation with the current game array length that slowly increments, and the user input increments beforre they are compared.
+
+  * The reason for this method to not be used is issues with syncronization between the VGA and the FSM
+  * These issues caused for the array to inconsistently skip arround in comparison to using the 50 MHZ clock in the LAB 4 code instead of Lab 3 code where we experienced the most amount of issues.
+
+  * The LCDMemoryGame uses similar signals, as well as a functioning delay count that allows for the sequence to be shown in a near exact 1 second interval. The pros to this is that a middle mouse button is no longer needed to iterate through the given array. while a failed attempt at randomized code is present for vga_top.vhd in memory game.
+  * Next off is reimplementing the user input and output steps, instead of having to compare user input meticuoulsly, it simply grabs a button and index to match one of the 3 buttons correlating to 1 of the 3 displays, of which the sequence display does not have to call ARROW by inputting a different value to ARROW_DIRECTION_FSM and Color_Chosen_FSM, now the code just has to work via the seq_display to directly display a 1 on either the left, middle, or right LCD Display. 
 
 
-## Whats left to do
+## Whats WAS left to do
   * Generate string of random arrow positions, calls and shows arrows in pattern
   * Accept user inputs and checks for matching arrows, if mismatch found you lose
   * Keep generating longer patterns each time user completes current string of random arrows
