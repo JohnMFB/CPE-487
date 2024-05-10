@@ -61,11 +61,13 @@
 * Attempts in debugging FSM for both Arrow and LCD Game
 * Writing and Editing README
   
-## Whats WAS left to do
+## What WAS left to do
   * Generate string of random arrow positions, calls and shows arrows in pattern
   * Accept user inputs and checks for matching arrows, if mismatch found you lose
   * Keep generating longer patterns each time user completes current string of random arrows
-  * stuff
+  * Keep track of what level the user is on with a counter and display it
+  * Display a "C" (Correct) or "F" (Fail) value on one of the open displays when user finishes a level
+  * Add more randomness with arrays by flipping switches making it harder for users
 
 ## Arrow MemoryGame Setup
 
