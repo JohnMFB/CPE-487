@@ -15,17 +15,17 @@
 
 ### 1. Create a new RTL project MemoryGame in Vivado Quick Start
 
-* Create five new source files of file type VHDL called **_clk_wiz_0_**, **_clk_wiz_0_clk_wiz_**, **_vga_sync_**, **_Arrow_**, and **_vga_top_**
+* Create five new source files of file type VHDL called **hexcalc.vhd** and **leddec16.vhd**
 
-* Create a new constraint file of file type XDC called **_vga_top_**
+* Create a new constraint file of file type XDC called **hexcalc.vhd**
 
 * Choose Nexys A7-100T board for the project
 
 * Click 'Finish'
 
-* Click design sources and copy the VHDL code from clk_wiz_0.vhd, clk_wiz_0_clk_wiz.vhd, vga_sync.vhd, Arrow.vhd, and vga_top.vhd
+* Click design sources and copy the VHDL code from hexcalc.vhd, leddec16.vhd
 
-* Click constraints and copy the code from vga_top.xdc
+* Click constraints and copy the code from hexcalc.xdc
 
 * As an alternative, you can instead download files from Github and import them into your project when creating the project. The source file or files would still be imported during the Source step, and the constraint file or files would still be imported during the Constraints step.
 
