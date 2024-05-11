@@ -46,16 +46,26 @@
 ![image](/Images/ArrowLogic3.png)
 
 ## **Lab 4: Calculator** Code Modifications for LCD Memory
+### hexcalc.vhd
 
   * The reason for this method to not be used is issues with syncronization between the VGA and the FSM
   * These issues caused for the array to inconsistently skip arround in comparison to using the 50 MHZ clock in the LAB 4 code instead of Lab 3 code where we experienced the most amount of issues.
 
   * The LCDMemoryGame uses similar signals, as well as a functioning delay count that allows for the sequence to be shown in a near exact 1 second interval. The pros to this is that a middle mouse button is no longer needed to iterate through the given array. while a failed attempt at randomized code is present for vga_top.vhd in memory game.
+
+![image](/Imahes/LCDSignals.png)
+
   * Next off is reimplementing the user input and output steps, instead of having to compare user input meticuoulsly, it simply grabs a button and index to match one of the 3 buttons correlating to 1 of the 3 displays, of which the sequence display does not have to call ARROW by inputting a different value to ARROW_DIRECTION_FSM and Color_Chosen_FSM, now the code just has to work via the seq_display to directly display a 1 on either the left, middle, or right LCD Display. 
+
+![image](/Images/LCDDisplay.png)
 
 * A synchronization to state switches was also made on top of the FSM for the LCDMemoryGame
 
 * Because of the more automatic and consistently working delay for the LCDMemoryGame's LCD, we had experienced better success in displaying the array, which worked sucessfully but only breaks once the last 3 iterations are displayed, all sucessfully with a second in between. However the problem is that even though the index is working, providing different 1s on the different screen, for 1 showing 0100, 2 showing 0010, and 3 showing 0001, to corrrespond to btn_left for 0100, btn_middle for 0010, and btn_right for 0001 that is then compared in the fsm.
+
+![image](/Images/LCDLogic.png)
+
+## Final Thoughts and Conclusion
 
 * Inputs and Outputs in the VGA Memory Game were changes as we directly influenced arrow direction in an if statement then color chosen to be inputted into arrow from the FSM, where arrow outputs its color on and off to the vga_sync sucessfully creating arrow directions which was a large accomplishment of its own, of then its up to the violation of the FSM to be able to successfully activate the arrows in exactly the right order, of which the stability of the program without delays or debouncing functioning, and buttoon presses not being 100% consistent made troubleshooting the FSM impossible. Buttons as inputs are also added within the vga_top.xdc constraint file.
   
@@ -69,11 +79,13 @@
 * LCD DISPLAY ARROWS (Please let me know if this public link share does not give you access)
 * https://drive.google.com/file/d/1Xh6_WCQx1JRTh_ypAwYhQE3YZCwcSsoV/view?usp=drive_link
 
-# John
+## Contributions
+
+### John
 * Responsible for FSM creation and troubleshooting
 * implementing inputs and outputs of Arrow in VGA and README
 
-# Nick
+### Nick
 * Responsible for hand creating the arrow code of which worked flawlessly, Up arrow, down arrow, left arrow, right arrow
 * Attempts in debugging FSM for both Arrow and LCD Game
 * Writing and Editing README
