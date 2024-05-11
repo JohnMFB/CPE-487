@@ -53,7 +53,7 @@
 
   * The LCDMemoryGame uses similar signals, as well as a functioning delay count that allows for the sequence to be shown in a near exact 1 second interval. The pros to this is that a middle mouse button is no longer needed to iterate through the given array. while a failed attempt at randomized code is present for vga_top.vhd in memory game.
 
-![image](/Imahes/LCDSignals.png)
+![image](/Images/LCDSignals.png)
 
   * Next off is reimplementing the user input and output steps, instead of having to compare user input meticuoulsly, it simply grabs a button and index to match one of the 3 buttons correlating to 1 of the 3 displays, of which the sequence display does not have to call ARROW by inputting a different value to ARROW_DIRECTION_FSM and Color_Chosen_FSM, now the code just has to work via the seq_display to directly display a 1 on either the left, middle, or right LCD Display. 
 
